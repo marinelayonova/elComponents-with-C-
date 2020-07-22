@@ -1,0 +1,337 @@
+#include <iostream>
+#include<cstring>
+#include<stdio.h>
+#include<string>
+#include<vector>
+#include<ostream>
+#include<fstream>
+
+
+using namespace std;
+
+class elComponents
+{
+protected:
+    int nomenNumber;
+    string nomName;
+    double value;
+    string unit;
+public:
+    elComponents();
+    int getNomenNumber() const;
+    string getNomName() const;
+    double getValue() const;
+    string getUnit() const;
+    void setNomenNumber();
+    void setNomName();
+    void setValue();
+    void setUnit();
+    friend void printElements(vector<elComponents*> &elComponent);
+    friend void addNewElement(vector<elComponents*> &elComponent );
+   friend void deleteElement(vector<elComponents*> &elComponents);
+    friend ostream & operator<<(ostream& os, elComponents& elComp);
+     ~elComponents();
+};
+
+
+
+
+class Condensator:public elComponents
+{
+protected:
+    double price;
+    string country;
+public:
+    Condensator();
+    ~Condensator();
+    double getPrice() const;
+    string getCountry() const;
+    void setPrice();
+    void setCountry();
+    friend void printCondensator(vector<Condensator*> &cond);
+   friend void findCondensators(vector<Condensator*> &cond);
+   friend void write_to_file(vector<Condensator*> &cond,  string const filename);
+};
+
+
+
+
+
+elComponents::elComponents()
+{
+   setNomenNumber();
+   setNomName();
+   setValue();
+   setUnit();
+}
+
+
+elComponents::~elComponents()
+{
+    cout<<"El Components destructor"<<endl;
+
+}
+
+int elComponents::getNomenNumber() const
+{
+    return this->nomenNumber;
+}
+
+string elComponents::getNomName() const
+{
+    return this->nomName;
+}
+
+double elComponents::getValue() const
+{
+    return this->value;
+}
+
+string elComponents::getUnit() const
+{
+    return this->unit;
+}
+
+ void elComponents::setNomenNumber()
+{
+    cout<<"Nomenclature number: "<<endl;
+   cin>>this->nomenNumber;
+}
+
+void elComponents::setNomName()
+{
+   // char m;
+   // cin.get(m);
+    cout<<"Nomenclature name: "<<endl;
+    cin>>this->nomName;
+  // getline(cin, this->naimenovanie);
+}
+
+void elComponents::setValue()
+{
+   cout<<"Value: "<<endl;
+   cin>>this->value;
+}
+
+void elComponents::setUnit()
+{
+   //  char c;
+   // cin.get(c);
+    cout<<"Unit: "<<endl;
+    cin>>this->unit;
+   // getline(cin, this->mernaEd);
+}
+
+Condensator::Condensator():elComponents()
+{
+    setCountry();
+    setPrice();
+}
+
+string Condensator::getCountry() const
+{
+    return this->country;
+}
+
+double Condensator::getPrice() const
+{
+    return this->price;
+}
+
+void Condensator::setCountry()
+{
+    cout<<"Country: "<<endl;
+    cin>>this->country;
+}
+
+void Condensator::setPrice()
+{
+    cout<<"Price: "<<endl;
+    cin>>this->price;
+}
+
+Condensator::~Condensator()
+{
+    cout<<"condensator destructor"<<endl;
+}
+
+
+void addNewElement(vector<elComponents*> &elComponent )
+{
+
+  // elComponents *newElComp=new elComponents(100, "bobina", 12, "L");
+
+
+
+elComponents *eComp=new elComponents;
+elComponent.push_back(eComp);
+
+
+
+
+}
+
+
+void printElements( vector<elComponents*> &elComponent)
+{
+    for(int i=0; i<elComponent.size(); i++)
+    {
+  cout<<"Nomenclature number: "<< elComponent[i]->getNomenNumber()<<endl;
+   cout<<"Nomenclature name: "<<elComponent[i]->getNomName()<<endl;
+   cout<<"Value: "<<elComponent[i]->getValue()<<endl;
+   cout<<"Unit: "<<elComponent[i]->getUnit()<<endl;
+    }
+
+}
+
+void deleteElement(vector<elComponents*> &elComponent)
+{
+  int n;
+    cout<<"Which el component do you want to erase? "<<endl;
+    cin>>n;
+
+     elComponent.erase(elComponent.begin() +n);
+
+}
+
+
+ostream & operator<<(ostream& os, elComponents& elComp)
+{
+    os<<"Nomenclature number: "<<elComp.getNomenNumber()<<endl;
+    os<<"Name: "<<elComp.getNomName()<<endl;
+    os<<"Value: "<<elComp.getValue()<<endl;
+    os<<"Unit: "<<elComp.getUnit()<<endl;
+
+    return os;
+}
+
+void printCondensator(vector<Condensator*> &cond)
+{
+    for(int i=0; i<cond.size(); i++)
+    {
+
+        cout<<"Nomenclature number: "<<cond[i]->getNomenNumber()<<endl;
+        cout<<"Number: "<<cond[i]->getNomName()<<endl;
+        cout<<"Value: "<<cond[i]->getValue()<<endl;
+        cout<<"Unit: "<<cond[i]->getUnit()<<endl;
+        cout<<"Country: "<<cond[i]->getCountry()<<endl;
+        cout<<"Price: "<<cond[i]->getPrice()<<endl;
+    }
+
+
+}
+
+void findCondensators(vector<Condensator*> &cond)
+{
+
+    for(int i=0; i<cond.size(); i++)
+    {
+        if((cond[i]->value)>0 && (cond[i]->value)<10)
+        {
+            cout<<"Nomenclature number: "<<cond[i]->getNomenNumber()<<endl;
+            cout<<"Number: "<<cond[i]->getNomName()<<endl;
+            cout<<"Value: "<<cond[i]->getValue()<<endl;
+        }
+    }
+}
+
+
+void write_to_file(vector<Condensator*> &cond,  string const filename)
+{
+
+     ofstream file;
+
+         file.open( filename.c_str(), ios::app);
+
+         if (!file.good())
+            {
+
+                cout << "Error creating c++.out.txt";
+
+
+         }
+
+    else{
+
+        /* file << "elComponent nomenklaturen nomer: " << s->getNomenNomer() << endl
+
+                  << "elComponent naimenovanie: " << s->getNaimenovanie() <<  endl
+
+                  << "elComponent stoinost: " << s->getStoinost() << endl
+
+                   << "elComponent merna edinica: " << s->getMernaEd() << endl
+
+                    << "Condensator country: " << s->getCountry() << endl
+
+                     << "Condensator price: " << s->getPrice() << endl; */
+
+        for( int i=0; i<cond.size(); i++)
+        {
+
+        file << "elComponent nomenclature number: " << cond[i]->getNomenNumber() << endl
+
+                  << "elComponent name: " << cond[i]->getNomName() <<  endl
+
+                  << "elComponent value: " << cond[i]->getValue() << endl
+
+                   << "elComponent unit: " << cond[i]->getUnit() << endl
+
+                    << "Condensator country: " << cond[i]->getCountry() << endl
+
+                     << "Condensator price: " << cond[i]->getPrice() << endl;
+
+
+                }
+        file.close();
+    }
+}
+
+
+
+int main()
+{
+   vector<elComponents*> elComp;
+   vector<Condensator*> condensator;
+
+
+
+ char choice;
+	while(1)
+	{
+		cout<<("^MENU^___________________\n");
+	cout<<(" ||1| : Add el components		 \n ");
+	cout<<("||2| : Print el components \n ");
+	cout<<("||3| : Add new el component	\n ");
+	cout<<("||4| : Delete el component			 \n ");
+	cout<<("||5| : Add Condesator			 	\n");
+	cout<<("||6| : Print Condesator			 	\n");
+	cout<<("||7| : Find condensators 		 	\n");
+	cout<<("||8| : Write to file		 	\n");
+	cout<<("_____________________________\n");
+	cin>>choice;
+		switch(choice){
+			case '1':{elComponents *elComp1=new elComponents; elComponents *elComp2=new elComponents; elComp.push_back(elComp1);   elComp.push_back(elComp2); }
+			break;
+			case '2': { printElements(elComp);}
+			break;
+			case '3':{addNewElement(elComp);}
+			break;
+			case '4':  { deleteElement(elComp);}
+			break;
+			case '5': { Condensator *cond1=new Condensator; Condensator *cond2=new Condensator; condensator.push_back(cond1); condensator.push_back(cond2);  }
+			break;
+			case '6': { printCondensator(condensator);  }
+			break;
+			case '7': { findCondensators(condensator);  }
+			break;
+			case '8': { write_to_file(condensator,  "elComponents.txt");  }
+			break;
+			default : break;
+		}
+	}
+
+
+
+
+    return 0;
+}

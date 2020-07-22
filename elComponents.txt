@@ -1,0 +1,12 @@
+elComponent nomenclature number: 1214
+elComponent name: Capacitor
+elComponent value: 25
+elComponent unit: V
+Condensator country: China
+Condensator price: 30
+elComponent nomenclature number: 1215
+elComponent name: Capacitor
+elComponent value: 12
+elComponent unit: V
+Condensator country: Germany
+Condensator price: 10
